@@ -1,0 +1,643 @@
+('starting', 'build')
+
+**********************************************************************
+
+Test build
+build project using make
+
+**********************************************************************
+Trying to build project using make
+make
+export LD_LIBRARY_PATH=.
+make -f Makefile.libmfs
+make[1]: Entering directory '/tmp/tmprL2Ku6/p'
+make[1]: 'libmfs.so' is up to date.
+make[1]: Leaving directory '/tmp/tmprL2Ku6/p'
+make -f Makefile.server
+make[1]: Entering directory '/tmp/tmprL2Ku6/p'
+gcc -o client client.c -Wall -L. -lmfs
+gcc -o main main.c -Wall -L. -lmfs
+gcc -o server server.c -Wall udp.o
+server.c: In function ‘main’:
+server.c:149:30: warning: unused variable ‘replytest’ [-Wunused-variable]
+  149 |                    message_t replytest;
+      |                              ^~~~~~~~~
+server.c:158:44: warning: comparison between pointer and integer
+  158 |                    if (stats(message.inum) == -1) { //reply wants the metadata back
+      |                                            ^~
+server.c: In function ‘lookup’:
+server.c:230:23: warning: comparison between pointer and integer
+  230 |         if (seekEntry != -1) {
+      |                       ^~
+server.c: In function ‘create’:
+server.c:305:20: warning: format not a string literal and no format arguments [-Wformat-security]
+  305 |                    sprintf(seekEntry[j].name, name);
+      |                    ^~~~~~~
+server.c:346:20: warning: format not a string literal and no format arguments [-Wformat-security]
+  346 |                    sprintf(seekEntry[j].name, name);
+      |                    ^~~~~~~
+server.c: In function ‘unlnk’:
+server.c:390:19: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+  390 |                if(child->type = MFS_DIRECTORY && child->size <= 64) {
+      |                   ^~~~~
+server.c:391:45: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+  391 |                  sprintf(seekEntry[j].name, "");
+      |                                             ^~
+server.c:394:27: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+  394 |                } else if (child->type = MFS_REGULAR_FILE) {
+      |                           ^~~~~
+server.c:395:45: warning: zero-length gnu_printf format string [-Wformat-zero-length]
+  395 |                  sprintf(seekEntry[j].name, "");
+      |                                             ^~
+server.c: In function ‘stats’:
+server.c:419:16: warning: returning ‘int’ from a function with return type ‘void *’ makes pointer from integer without a cast [-Wint-conversion]
+  419 |         return -1;
+      |                ^
+make[1]: Leaving directory '/tmp/tmprL2Ku6/p'
+
+
+test build PASSED
+ (build project using make)
+
+('starting', 'shutdown')
+
+**********************************************************************
+
+Test shutdown
+init server and client then call shutdown
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7256
+/tmp/tmprL2Ku6/p/server 7256 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+Running localhost on 7256 and select returned =1
+
+
+test shutdown PASSED
+ (init server and client then call shutdown)
+
+('starting', 'creat')
+
+**********************************************************************
+
+Test creat
+creat a file and check with lookup
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 8412
+/tmp/tmprL2Ku6/p/server 8412 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+Server recieved Creat cmd
+creating..
+0, test
+Running localhost on 8412 and select returned =1
+test
+
+
+test creat PASSED
+ (creat a file and check with lookup)
+
+('starting', 'write')
+
+**********************************************************************
+
+Test write
+write then read one block
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 6981
+/tmp/tmprL2Ku6/p/server 6981 /home/szozda/private/cs537/p4/test.img
+Running localhost on 6981 and select returned =1
+test
+('START BLOCK 1\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00END BLOCK 1')
+('\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00')
+Failure: Corrupt data returned by read
+
+
+test write FAILED
+ (write then read one block)
+ Corrupt data returned by read
+
+('starting', 'stat')
+
+**********************************************************************
+
+Test stat
+stat a regular file
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 8454
+/tmp/tmprL2Ku6/p/server 8454 /home/szozda/private/cs537/p4/test.img
+Running localhost on 8454 and select returned =1
+test
+Failure: Stat gave wrong type
+
+
+test stat FAILED
+ (stat a regular file)
+ Stat gave wrong type
+
+('starting', 'overwrite')
+
+**********************************************************************
+
+Test overwrite
+overwrite a block
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5309
+/tmp/tmprL2Ku6/p/server 5309 /home/szozda/private/cs537/p4/test.img
+Running localhost on 5309 and select returned =1
+test
+Failure: Corrupt data returned by read
+
+
+test overwrite FAILED
+ (overwrite a block)
+ Corrupt data returned by read
+
+('starting', 'maxfile')
+
+**********************************************************************
+
+Test maxfile
+write largest possible file
+
+**********************************************************************
+total blocks        39
+  inodes            128 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 6827
+/tmp/tmprL2Ku6/p/server 6827 /home/szozda/private/cs537/p4/test.img
+Running localhost on 6827 and select returned =1
+test
+Failure: Corrupt data returned by read
+
+
+test maxfile FAILED
+ (write largest possible file)
+ Corrupt data returned by read
+
+('starting', 'maxfile2')
+
+**********************************************************************
+
+Test maxfile2
+write more blocks than possible
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5470
+/tmp/tmprL2Ku6/p/server 5470 /home/szozda/private/cs537/p4/test.img
+Running localhost on 5470 and select returned =1
+test
+31
+write more than need
+Failure: MFS_Write should fail on inalid block number
+
+
+test maxfile2 FAILED
+ (write more blocks than possible)
+ MFS_Write should fail on inalid block number
+
+('starting', 'dir1')
+
+**********************************************************************
+
+Test dir1
+check root for dot entries
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5020
+/tmp/tmprL2Ku6/p/server 5020 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+0, .
+0, ..
+Running localhost on 5020 and select returned =1
+
+
+test dir1 PASSED
+ (check root for dot entries)
+
+('starting', 'dir2')
+
+**********************************************************************
+
+Test dir2
+create a new directory and check it
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 9006
+/tmp/tmprL2Ku6/p/server 9006 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+Server recieved Creat cmd
+creating..
+1
+0, testdir
+1, .
+1, ..
+Running localhost on 9006 and select returned =1
+testdir
+
+
+test dir2 PASSED
+ (create a new directory and check it)
+
+('starting', 'baddir')
+
+**********************************************************************
+
+Test baddir
+try to create a file with a file parent inode
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7535
+/tmp/tmprL2Ku6/p/server 7535 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+Server recieved Creat cmd
+creating..
+0, testdir
+Server recieved Creat cmd
+Creat failed: parent is not a directory
+Running localhost on 7535 and select returned =1
+testdir
+testfile
+
+
+test baddir PASSED
+ (try to create a file with a file parent inode)
+
+('starting', 'baddir2')
+
+**********************************************************************
+
+Test baddir2
+try to lookup a file with a file parent inode
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7487
+/tmp/tmprL2Ku6/p/server 7487 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+Server recieved Creat cmd
+creating..
+0, testdir
+1, testfile
+Server: Inum does not point to a directory
+Running localhost on 7487 and select returned =1
+testdir
+
+
+test baddir2 PASSED
+ (try to lookup a file with a file parent inode)
+
+('starting', 'unlink')
+
+**********************************************************************
+
+Test unlink
+unlink a file
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7487
+/tmp/tmprL2Ku6/p/server 7487 /home/szozda/private/cs537/p4/test.img
+Running localhost on 7487 and select returned =1
+test
+Failure: MFS_Unlink returned failure pinum=0 name='test'
+
+
+test unlink FAILED
+ (unlink a file)
+ MFS_Unlink returned failure pinum=0 name='test'
+
+('starting', 'unlink2')
+
+**********************************************************************
+
+Test unlink2
+unlink a directory
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5920
+/tmp/tmprL2Ku6/p/server 5920 /home/szozda/private/cs537/p4/test.img
+Running localhost on 5920 and select returned =1
+test
+Failure: MFS_Unlink returned failure pinum=0 name='test'
+
+
+test unlink2 FAILED
+ (unlink a directory)
+ MFS_Unlink returned failure pinum=0 name='test'
+
+('starting', 'empty')
+
+**********************************************************************
+
+Test empty
+unlink a non-empty directory
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 9570
+/tmp/tmprL2Ku6/p/server 9570 /home/szozda/private/cs537/p4/test.img
+Running localhost on 9570 and select returned =1
+testdir
+testfile
+Failure: MFS_Unlink returned failure pinum=1 name='testfile'
+
+
+test empty FAILED
+ (unlink a non-empty directory)
+ MFS_Unlink returned failure pinum=1 name='testfile'
+
+('starting', 'name')
+
+**********************************************************************
+
+Test name
+name too long
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 5560
+/tmp/tmprL2Ku6/p/server 5560 /home/szozda/private/cs537/p4/test.img
+File /home/szozda/private/cs537/p4/test.img opened
+              Server ready to accept commands
+Server recieved Creat cmd
+Name too long to fit
+Running localhost on 5560 and select returned =1
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+
+test name PASSED
+ (name too long)
+
+('starting', 'persist')
+
+**********************************************************************
+
+Test persist
+restart server after creating a file
+
+**********************************************************************
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 9175
+/tmp/tmprL2Ku6/p/server 9175 /home/szozda/private/cs537/p4/test.img
+Running localhost on 9175 and select returned =1
+test
+Failure: Corrupt data returned by read
+
+
+test persist FAILED
+ (restart server after creating a file)
+ Corrupt data returned by read
+
+('starting', 'bigdir')
+
+**********************************************************************
+
+Test bigdir
+create a directory with 126 files
+
+**********************************************************************
+total blocks        39
+  inodes            128 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 8414
+/tmp/tmprL2Ku6/p/server 8414 /home/szozda/private/cs537/p4/test.img
+Running localhost on 8414 and select returned =1
+testdir
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+Failure: MFS_Creat returned failure inum=1 type=1 name='30'
+
+
+test bigdir FAILED
+ (create a directory with 126 files)
+ MFS_Creat returned failure inum=1 type=1 name='30'
+
+('starting', 'deep')
+
+**********************************************************************
+
+Test deep
+create many deeply nested directories
+
+**********************************************************************
+total blocks        39
+  inodes            128 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
+Starting server on port 7839
+/tmp/tmprL2Ku6/p/server 7839 /home/szozda/private/cs537/p4/test.img
+Running localhost on 7839 and select returned =1
+testdir
+0
+1
+Failure: MFS_Creat returned failure inum=2 type=0 name='1'
+
+
+test deep FAILED
+ (create many deeply nested directories)
+ MFS_Creat returned failure inum=2 type=0 name='1'
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build project using make)
+
+test shutdown PASSED
+ (init server and client then call shutdown)
+
+test creat PASSED
+ (creat a file and check with lookup)
+
+test write FAILED
+ (write then read one block)
+ Corrupt data returned by read
+
+test stat FAILED
+ (stat a regular file)
+ Stat gave wrong type
+
+test overwrite FAILED
+ (overwrite a block)
+ Corrupt data returned by read
+
+test maxfile FAILED
+ (write largest possible file)
+ Corrupt data returned by read
+
+test maxfile2 FAILED
+ (write more blocks than possible)
+ MFS_Write should fail on inalid block number
+
+test dir1 PASSED
+ (check root for dot entries)
+
+test dir2 PASSED
+ (create a new directory and check it)
+
+test baddir PASSED
+ (try to create a file with a file parent inode)
+
+test baddir2 PASSED
+ (try to lookup a file with a file parent inode)
+
+test unlink FAILED
+ (unlink a file)
+ MFS_Unlink returned failure pinum=0 name='test'
+
+test unlink2 FAILED
+ (unlink a directory)
+ MFS_Unlink returned failure pinum=0 name='test'
+
+test empty FAILED
+ (unlink a non-empty directory)
+ MFS_Unlink returned failure pinum=1 name='testfile'
+
+test name PASSED
+ (name too long)
+
+test persist FAILED
+ (restart server after creating a file)
+ Corrupt data returned by read
+
+test bigdir FAILED
+ (create a directory with 126 files)
+ MFS_Creat returned failure inum=1 type=1 name='30'
+
+test deep FAILED
+ (create many deeply nested directories)
+ MFS_Creat returned failure inum=2 type=0 name='1'
+
+Passed 8 of 19 tests.
+Overall 8 of 19

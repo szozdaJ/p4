@@ -1,0 +1,8 @@
+
+all:
+	gcc -o client client.c -Wall -L. -lmfs
+	gcc -o main main.c -Wall -L. -lmfs
+	gcc -o server server.c -Wall udp.o
+
+clean:
+	rm -f server client main
